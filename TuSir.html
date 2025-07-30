@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TuSir软件中心 | 专业Java应用程序下载</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --success: #27ae60;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* 顶部导航 */
+        .navbar {
+            background: var(--primary);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: var(--accent);
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        /* 头部区域 */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+            color: white;
+            padding: 80px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+        }
+        
+        /* 下载区域 */
+        .download-section {
+            padding: 60px 40px;
+            text-align: center;
+            background: white;
+        }
+        
+        .download-card {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid #eee;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            padding: 18px 50px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 30px 0 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, #c0392b, #e74c3c);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .download-btn:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(231, 76, 60, 0.5);
+        }
+        
+        .download-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .info-item {
+            background: var(--light);
+            padding: 12px 25px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* 功能介绍 */
+        .features-section {
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--secondary);
+            font-size: 2rem;
+        }
+        
+        /* 系统要求 */
+        .requirements-section {
+            padding: 60px 40px;
+            background: white;
+        }
+        
+        .requirements {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--light);
+            padding: 40px;
+            border-radius: 10px;
+        }
+        
+        .requirements ul {
+            list-style: none;
+        }
+        
+        .requirements li {
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .requirements li:last-child {
+            border-bottom: none;
+        }
+        
+        .requirement-name {
+            font-weight: 500;
+        }
+        
+        /* GitHub帮助区域 */
+        .github-help {
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+        
+        .help-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .help-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .help-card h3 {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .help-card ul {
+            list-style: none;
+        }
+        
+        .help-card li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .help-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .help-card li::before {
+            content: "✓";
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                display: flex;
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .download-btn {
+                padding: 15px 40px;
+                font-size: 1.2rem;
+            }
+            
+            .download-info {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 导航栏 -->
+        <nav class="navbar">
+            <div class="logo">TuSir<span>SOFT</span></div>
+            <div class="nav-links">
+                <a href="#features">软件功能</a>
+                <a href="#requirements">系统要求</a>
+                <a href="#download">下载中心</a>
+                <a href="#support">技术支持</a>
+            </div>
+        </nav>
+        
+        <!-- 头部区域 -->
+        <header class="hero">
+            <div class="hero-content">
+                <h1>专业的Java应用程序解决方案</h1>
+                <p>高效、安全、用户友好的桌面软件，专为提升您的工作效率而设计</p>
+                <a href="#download" class="download-btn">
+                    <i class="fas fa-download"></i> 立即下载
+                </a>
+            </div>
+        </header>
+        
+        <!-- 下载区域 -->
+        <section id="download" class="download-section">
+            <div class="download-card">
+                <h2>获取最新版本</h2>
+                <p>当前版本 v2.1.0 | 发布时间: 2023年10月15日</p>
+                
+                <a href="https://github.com/TuSirDOWNLOAD/TuSirDOWNLOAD.github.io/releases/download/v1.0/setup.exe" 
+                   class="download-btn" 
+                   download="TuSirSoftware_Setup.exe">
+                    <i class="fas fa-download"></i> 下载安装程序
+                </a>
+                
+                <div class="download-info">
+                    <div class="info-item">
+                        <i class="fas fa-file-archive"></i> 文件大小: 85MB
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-shield-alt"></i> 安全认证: SHA-256
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-history"></i> 上次更新: 3天前
+                    </div>
+                </div>
+                
+                <p class="github-tip">通过GitHub Releases安全下载，100%无病毒</p>
+            </div>
+        </section>
+        
+        <!-- 功能介绍 -->
+        <section id="features" class="features-section">
+            <h2 class="section-title">核心功能</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>卓越性能</h3>
+                    <p>优化的Java运行时引擎，提供流畅的操作体验，处理速度提升300%</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>高级安全</h3>
+                    <p>端到端数据加密，实时威胁检测，保护您的敏感信息</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>自动更新</h3>
+                    <p>后台静默更新，无需用户干预即可获取最新功能和安全补丁</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 系统要求 -->
+        <section id="requirements" class="requirements-section">
+            <h2 class="section-title">系统要求</h2>
+            <div class="requirements">
+                <ul>
+                    <li>
+                        <span class="requirement-name">操作系统</span>
+                        <span>Windows 10/11, macOS 12+, Linux Ubuntu 20.04+</span>
+                    </li>
+                    <li>
+                        <span class="requirement-name">处理器</span>
+                        <span>1.5 GHz 双核或更高</span>
+                    </li>
+                    <li>
+                        <span class="requirement-name">内存</span>
+                        <span>4 GB RAM (推荐 8 GB)</span>
+                    </li>
+                    <li>
+                        <span class="requirement-name">存储空间</span>
+                        <span>安装需要 500 MB 可用空间</span>
+                    </li>
+                    <li>
+                        <span class="requirement-name">Java环境</span>
+                        <span>Java Runtime Environment (JRE) 11 或更高版本</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- GitHub帮助区域 -->
+        <section id="support" class="github-help">
+            <h2 class="section-title" style="color: white;">GitHub下载帮助</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 30px; opacity: 0.9;">
+                我们使用GitHub提供安全的软件下载服务。如果您遇到任何下载问题，请参考以下解决方案：
+            </p>
+            
+            <div class="help-cards">
+                <div class="help-card">
+                    <h3><i class="fab fa-github"></i> 下载失败？</h3>
+                    <ul>
+                        <li>右键点击下载按钮选择"另存为"</li>
+                        <li>暂时禁用浏览器扩展程序</li>
+                        <li>尝试使用其他浏览器(Chrome/Firefox)</li>
+                        <li>确保您的网络连接稳定</li>
+                    </ul>
+                </div>
+                
+                <div class="help-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> 安装问题</h3>
+                    <ul>
+                        <li>以管理员身份运行安装程序</li>
+                        <li>检查系统是否满足最低要求</li>
+                        <li>确保有足够的磁盘空间</li>
+                        <li>安装最新版Java运行环境</li>
+                    </ul>
+                </div>
+                
+                <div class="help-card">
+                    <h3><i class="fas fa-cogs"></i> GitHub配置</h3>
+                    <ul>
+                        <li>仓库名称: TuSirDOWNLOAD.github.io</li>
+                        <li>网站地址: https://TuSirDOWNLOAD.github.io</li>
+                        <li>文件路径: /index.html</li>
+                        <li>大文件使用GitHub Releases</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页脚 -->
+        <footer>
+            <div class="footer-content">
+                <h3>TuSir软件中心</h3>
+                <p>提供专业、高效的Java应用程序解决方案</p>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+                
+                <p>技术支持: support@tusirsoft.com | 服务热线: 400-123-4567</p>
+                <p>© 2023 TuSir软件中心 版权所有</p>
+                <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.7;">
+                    通过GitHub Pages安全部署 | 版本 2.1.0
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // 下载按钮动画
+        const downloadBtn = document.querySelector('.download-btn');
+        downloadBtn.addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 下载中...';
+            
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-download"></i> 下载安装程序';
+                // 这里可以添加实际下载完成后的操作
+            }, 3000);
+        });
+        
+        // 卡片悬停效果
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-15px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
